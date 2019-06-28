@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="UserControl_Simplificator"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfClass_TCD"
+             
+             mc:Ignorable="d" 
+             d:DesignHeight="130" d:DesignWidth="400" Background="White">
+    <StackPanel>
+        <TextBlock > Nom de la selection : </TextBlock>
+        <TextBox Name="TextBox_Tilte" TextChanged="TextBox_Tilte_TextChanged"></TextBox>
+        <TextBlock > Selection du champs :</TextBlock>
+        <ComboBox Name="ComboBox_Champs" SelectionChanged="ComboBox_Champs_SelectionChanged"></ComboBox>
+        <TextBlock >Choix</TextBlock>
+        <ComboBox Name="ComboBox_Choix"></ComboBox>
+        <Button Name="Button_Close" Click="Button_Close_Click" > Close</Button>
+    </StackPanel>
+</UserControl>
