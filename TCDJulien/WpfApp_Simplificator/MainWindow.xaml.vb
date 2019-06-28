@@ -26,6 +26,13 @@ Class MainWindow
     End Sub
 
     Private Sub Button_Go_Click(sender As Object, e As RoutedEventArgs)
+        Dim FileName = TextBox_FileName.Text
+        If Not File.Exists(FileName) Then Exit Sub
+        Dim ext = Path.GetExtension(FileName)
+        If ext <> ".xlsx" Then Exit Sub
+        Simplifie(FileName, StackPanel_Choix)
+
+
 
     End Sub
 End Class

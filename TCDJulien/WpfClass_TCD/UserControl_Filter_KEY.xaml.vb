@@ -1,4 +1,4 @@
-﻿Public Class UserControl_Filter
+﻿Public Class UserControl_Filter_KEY
     Property ListeChamps As New Dictionary(Of String, Dictionary(Of String, Integer))
     Public Sub New()
 

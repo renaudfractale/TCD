@@ -59,101 +59,152 @@ Public Module Module_Excel2Dico
 
 
 
-        For Each Ctrt As UserControl_Filter In StackPanel_Filter.Children
-            Dim Dico2 As New Dictionary(Of String, Dictionary(Of Integer, Dictionary(Of String, String)))
-            Dim Key = Ctrt.ComboBox_KEYS_Select.SelectedItem.ToString
-            Dim Value = Ctrt.ComboBox_KEYS_Values.SelectedItem.ToString
-            If Value = "*" Then Value = Nothing
-            For Each KV In Dico
-                Dim V = KV.Value.Item(Key)
-                If Value Is Nothing Then
-                    If Not Dico2.ContainsKey(V) Then
-                        Dico2.Add(V, New Dictionary(Of Integer, Dictionary(Of String, String)))
+        For Each CtrtObject As Object In StackPanel_Filter.Children
+
+            If CtrtObject.GetType() = GetType(UserControl_Filter_KEY) Then
+                Dim Ctrt = DirectCast(CtrtObject, UserControl_Filter_KEY)
+                If Ctrt.Visibility = Visibility.Collapsed Then Continue For
+                Dim Dico2 As New Dictionary(Of String, Dictionary(Of Integer, Dictionary(Of String, String)))
+                Dim Key = Ctrt.ComboBox_KEYS_Select.SelectedItem.ToString
+                Dim Value = Ctrt.ComboBox_KEYS_Values.SelectedItem.ToString
+                If Value = "*" Then Value = Nothing
+                For Each KV In Dico
+                    Dim V = KV.Value.Item(Key)
+                    If Value Is Nothing Then
+                        If Not Dico2.ContainsKey(V) Then
+                            Dico2.Add(V, New Dictionary(Of Integer, Dictionary(Of String, String)))
+                        End If
+                        Dico2.Item(V).Add(KV.Key, KV.Value)
+                    ElseIf Value = V Then
+                        If Not Dico2.ContainsKey(V) Then
+                            Dico2.Add(V, New Dictionary(Of Integer, Dictionary(Of String, String)))
+                        End If
+                        Dico2.Item(V).Add(KV.Key, KV.Value)
                     End If
-                    Dico2.Item(V).Add(KV.Key, KV.Value)
-                ElseIf Value = V Then
-                    If Not Dico2.ContainsKey(V) Then
-                        Dico2.Add(V, New Dictionary(Of Integer, Dictionary(Of String, String)))
-                    End If
-                    Dico2.Item(V).Add(KV.Key, KV.Value)
-                End If
-            Next
-
-            Dim ListeOK As New List(Of String)
-
-            Dim KeyF = Ctrt.ComboBox_Filter_Select.SelectedItem.ToString
-            Dim ValueF = Ctrt.ComboBox_Filter_Value.SelectedItem.ToString
-            Dim CompF = Ctrt.ComboBox_Filter_Comp.SelectedItem.ToString
-            For Each KV In Dico2
-                Dim state As Boolean = False
-                For Each NoLigne In KV.Value.Keys.ToArray
-                    Dim V = KV.Value.Item(NoLigne).Item(KeyF)
-
-                    Select Case CompF
-                        Case "="
-                            state = V = ValueF
-                        Case "<>"
-                            state = V <> ValueF
-                        Case ">"
-                            If V = "" Or ValueF = "" Then Exit Select
-                            state = CInt(V) > CInt(ValueF)
-                        Case ">="
-                            If V = "" Or ValueF = "" Then Exit Select
-                            state = CInt(V) >= CInt(ValueF)
-                        Case "<"
-                            If V = "" Or ValueF = "" Then Exit Select
-                            state = CInt(V) < CInt(ValueF)
-                        Case "<="
-                            If V = "" Or ValueF = "" Then Exit Select
-                            state = CInt(V) <= CInt(ValueF)
-                    End Select
-
-                    If state Then Exit For
-
-
                 Next
 
-                If state Then ListeOK.Add(KV.Key)
-            Next
-            Dim Action = Ctrt.ComboBox_Action.SelectedItem.ToString
-            Dico = New Dictionary(Of Integer, Dictionary(Of String, String))
-            For Each K In ListeOK
-                If Action = "Add" Then
-                    For Each KV In Dico2
-                        If KV.Key = K Then
-                            For Each D In KV.Value
-                                Dico.Add(D.Key, D.Value)
-                            Next
-                        End If
-                    Next
-                ElseIf Action = "Remove" Then
-                    Dim state = True
-                    For Each KV In Dico2
-                        If KV.Key = K Then
-                            state = False
-                            Exit For
-                        End If
-                    Next
-                    If state Then
-                        For Each KV In Dico2
+                Dim ListeOK As New List(Of String)
+
+                Dim KeyF = Ctrt.ComboBox_Filter_Select.SelectedItem.ToString
+                Dim ValueF = Ctrt.ComboBox_Filter_Value.SelectedItem.ToString
+                Dim CompF = Ctrt.ComboBox_Filter_Comp.SelectedItem.ToString
+                For Each KV In Dico2
+                    Dim state As Boolean = False
+                    Dim StateMAster As Boolean = False
+                    If CompF <> "<>" Then
+                        For Each NoLigne In KV.Value.Keys.ToArray
+                            Dim V = KV.Value.Item(NoLigne).Item(KeyF)
+                            Select Case CompF
+                                Case "="
+                                    state = V = ValueF
+                                Case ">"
+                                    If V = "" Or ValueF = "" Then Exit Select
+                                    state = CInt(V) > CInt(ValueF)
+                                Case ">="
+                                    If V = "" Or ValueF = "" Then Exit Select
+                                    state = CInt(V) >= CInt(ValueF)
+                                Case "<"
+                                    If V = "" Or ValueF = "" Then Exit Select
+                                    state = CInt(V) < CInt(ValueF)
+                                Case "<="
+                                    If V = "" Or ValueF = "" Then Exit Select
+                                    state = CInt(V) <= CInt(ValueF)
+                            End Select
+                            If state Then Exit For
+                        Next
+                    Else
+                        For Each NoLigne In KV.Value.Keys.ToArray
+                            Dim V = KV.Value.Item(NoLigne).Item(KeyF)
+
+                            state = V = ValueF
+
+                            If state Then Exit For
+                        Next
+                        state = Not state
+                    End If
+
+                    If state Then ListeOK.Add(KV.Key)
+
+                Next
+                Dim Action = Ctrt.ComboBox_Action.SelectedItem.ToString
+                Dico = New Dictionary(Of Integer, Dictionary(Of String, String))
+
+                For Each KV In Dico2
+                    If Action = "Add" Then
+                        For Each K In ListeOK
                             If KV.Key = K Then
                                 For Each D In KV.Value
                                     Dico.Add(D.Key, D.Value)
                                 Next
                             End If
                         Next
-                    End If
-                Else
-                    For Each KV In Dico2
-
+                    ElseIf Action = "Remove" Then
+                        Dim state = True
+                        For Each K In ListeOK
+                            If KV.Key = K Then
+                                state = False
+                                Exit For
+                            End If
+                        Next
+                        If state Then
+                            For Each D In KV.Value
+                                Dico.Add(D.Key, D.Value)
+                            Next
+                        End If
+                    Else
                         For Each D In KV.Value
                             Dico.Add(D.Key, D.Value)
                         Next
+                    End If
+                Next
+            ElseIf CtrtObject.GetType() = GetType(UserControl_Filter_light) Then
+                Dim Ctrt = DirectCast(CtrtObject, UserControl_Filter_light)
+                If Ctrt.Visibility = Visibility.Collapsed Then Continue For
+                Dim Key = Ctrt.ComboBox_KEYS_Select.SelectedItem.ToString
+                Dim Value = Ctrt.ComboBox_KEYS_Values.SelectedItem.ToString
 
-                    Next
-                End If
-            Next
+                Dim KeyF = Ctrt.ComboBox_Filter_Select.SelectedItem.ToString
+                Dim ValueF = Ctrt.ComboBox_Filter_Value.SelectedItem.ToString
+                Dim CompF = Ctrt.ComboBox_Filter_Comp.SelectedItem.ToString
+                Dim Dico_New As New Dictionary(Of Integer, Dictionary(Of String, String))
+                For Each KV In Dico
+                    If KV.Value.Item(Key) = Value Then
+                        Dim Dic = KV.Value
+                        Dim V = Dic.Item(KeyF)
+                        Dim state As Boolean = False
+                        Select Case CompF
+                            Case "="
+                                state = V = ValueF
+                            Case "<>"
+                                state = V <> ValueF
+                            Case ">"
+                                If V = "" Or ValueF = "" Then Exit Select
+                                state = CInt(V) > CInt(ValueF)
+                            Case ">="
+                                If V = "" Or ValueF = "" Then Exit Select
+                                state = CInt(V) >= CInt(ValueF)
+                            Case "<"
+                                If V = "" Or ValueF = "" Then Exit Select
+                                state = CInt(V) < CInt(ValueF)
+                            Case "<="
+                                If V = "" Or ValueF = "" Then Exit Select
+                                state = CInt(V) <= CInt(ValueF)
+                        End Select
 
+                        Dim Action = Ctrt.ComboBox_Action.SelectedItem.ToString
+                        If Action = "Add" Then
+                            If state = True Then Dico_New.Add(KV.Key, KV.Value)
+                        ElseIf Action = "Remove" Then
+                            If state = False Then Dico_New.Add(KV.Key, KV.Value)
+                        Else
+                            Dico_New.Add(KV.Key, KV.Value)
+                        End If
+                    Else
+                        Dico_New.Add(KV.Key, KV.Value)
+                    End If
+                Next
+                Dico = Dico_New
+            End If
         Next
 
 
@@ -176,7 +227,7 @@ Public Module Module_Excel2Dico
                 Dim PoseV = "A" + Line.ToString + ":" + Module_FunctionsExcel.xlCol(LastColS) + Line.ToString
                 MySheetS.Range(PoseV).Value2 = listevalues.ToArray
                 Line += 1
-                MyFileS.Save()
+                '   MyFileS.Save()
             Next
 
             MyFileS.Save()
@@ -189,7 +240,7 @@ Public Module Module_Excel2Dico
     End Sub
 
 
-    Public Sub Simplifie(FileName As String, StackPanel_Filter As StackPanel)
+    Public Sub Simplifie(FileName As String, StackPanel_Choix As StackPanel)
 
         Dim MyFile = MyExcel.Workbooks.Open(FileName, False, True)
         Dim MySheet = CType(MyFile.ActiveSheet, Microsoft.Office.Interop.Excel.Worksheet)
@@ -213,6 +264,23 @@ Public Module Module_Excel2Dico
         Next
 
         MyFile.Close(False)
+        Dim Analyse As New Class_Analyse
+        For Each Ctrl As UserControl_Simplificator In StackPanel_Choix.Children
+            If Ctrl.Visibility = Visibility.Collapsed Then Continue For
+
+            Dim Champs = DirectCast(Ctrl.ComboBox_Champs.SelectedItem, String)
+            If Champs Is Nothing Then Continue For
+            Dim Choix = DirectCast(Ctrl.ComboBox_Choix.SelectedItem, String)
+            If Choix Is Nothing OrElse Choix = "" Then Continue For
+
+            If Choix = "All Value" Then
+                Analyse.Liste_AllValue.Add(Choix)
+            ElseIf Choix = "Ocurence Value" Then
+                Analyse.Liste_OcValue.Add(Choix)
+            Else 'Numeric value
+                Analyse.Liste_NumericValue.Add(Choix)
+            End If
+        Next
 
 
     End Sub

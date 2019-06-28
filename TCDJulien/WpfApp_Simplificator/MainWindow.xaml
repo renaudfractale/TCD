@@ -22,7 +22,7 @@
         <TextBox Grid.Row="1" Name="TextBox_Name"></TextBox>
         <TextBlock  Grid.Row="2" > Nom Fichier</TextBlock>
         <TextBox Name="TextBox_FileName"  Grid.Row="3" TextChanged="TextBox_FileName_TextChanged"></TextBox>
-        <Button Name="Button_AddChoix"  Grid.Row="4" Click="Button_AddChoix_Click">Add filter</Button>
+        <Button Name="Button_AddChoix"  Grid.Row="4" Click="Button_AddChoix_Click">Add Choix</Button>
         <StackPanel Orientation="Horizontal" Name="StackPanel_Choix"  Grid.Row="5" >
         </StackPanel>
         <Button Name="Button_Go"  Grid.Row="6" Click="Button_Go_Click">Go</Button>

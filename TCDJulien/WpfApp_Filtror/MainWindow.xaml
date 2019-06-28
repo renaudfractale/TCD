@@ -13,6 +13,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
 
@@ -21,10 +22,11 @@
         <TextBox Grid.Row="1" Name="TextBox_Name"></TextBox>
         <TextBlock  Grid.Row="2" > Nom Fichier</TextBlock>
         <TextBox Name="TextBox_FileName"  Grid.Row="3" TextChanged="TextBox_FileName_TextChanged"></TextBox>
-        <Button Name="Button_AddFilter"  Grid.Row="4" Click="Button_AddFilter_Click">Add filter</Button>
-        <StackPanel Orientation="Horizontal" Name="StackPanel_Filter"  Grid.Row="5" >
+        <Button Name="Button_AddFilter"  Grid.Row="4" Click="Button_AddFilter_Click">Add filter KEY</Button>
+        <Button Name="Button_AddFilter_LIGHT"  Grid.Row="5" Click="Button_AddFilter_LIGHT_Click">Add filter LIGHT</Button>
+        <StackPanel Orientation="Horizontal" Name="StackPanel_Filter"  Grid.Row="6" >
         </StackPanel>
-        <Button Name="Button_Go"  Grid.Row="6" Click="Button_Go_Click">Go</Button>
+        <Button Name="Button_Go"  Grid.Row="7" Click="Button_Go_Click">Go</Button>
 
     </Grid>
 </Window>

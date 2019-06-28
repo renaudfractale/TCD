@@ -112,8 +112,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="UserControl_Filter.xaml.vb">
-      <DependentUpon>UserControl_Filter.xaml</DependentUpon>
+    <Compile Include="UserControl_Filter_KEY.xaml.vb">
+      <DependentUpon>UserControl_Filter_KEY.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl_Filter_light.xaml.vb">
+      <DependentUpon>UserControl_Filter_light.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControl_Simplificator.xaml.vb">
       <DependentUpon>UserControl_Simplificator.xaml</DependentUpon>
@@ -132,7 +135,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="UserControl_Filter.xaml">
+    <Page Include="UserControl_Filter_KEY.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControl_Filter_light.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
