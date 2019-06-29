@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="UserControl_OcAndNumeric"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfClass_TCD"
+             mc:Ignorable="d" 
+             d:DesignHeight="130" d:DesignWidth="400" Background="White">
+    <StackPanel>
+        <TextBlock > Nom de la selection :</TextBlock>
+        <TextBox Name="TextBox_Tilte"></TextBox>
+        <TextBlock > Selection du champs Ocurennce :</TextBlock>
+        <ComboBox Name="ComboBox_Champs_Oc"></ComboBox>
+        <TextBlock > Selection du champs Numeric :</TextBlock>
+        <ComboBox Name="ComboBox_Champs_Nu"></ComboBox>
+        <Button Name="Button_Close" Click="Button_Close_Click" >Close</Button>
+    </StackPanel>
+</UserControl>

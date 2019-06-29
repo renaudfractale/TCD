@@ -1,5 +1,5 @@
 ﻿Imports Microsoft.Win32
-
+Imports System.IO
 Public Module Module_Excel2Dico
     Property MyExcel As New Microsoft.Office.Interop.Excel.Application
     Public Function GetListeChamps(FileName As String) As Dictionary(Of String, Dictionary(Of String, Integer))
@@ -265,23 +265,64 @@ Public Module Module_Excel2Dico
 
         MyFile.Close(False)
         Dim Analyse As New Class_Analyse
-        For Each Ctrl As UserControl_Simplificator In StackPanel_Choix.Children
-            If Ctrl.Visibility = Visibility.Collapsed Then Continue For
+        For Each CtrlObject As Object In StackPanel_Choix.Children
 
-            Dim Champs = DirectCast(Ctrl.ComboBox_Champs.SelectedItem, String)
-            If Champs Is Nothing Then Continue For
-            Dim Choix = DirectCast(Ctrl.ComboBox_Choix.SelectedItem, String)
-            If Choix Is Nothing OrElse Choix = "" Then Continue For
+            If CtrlObject.GetType() = GetType(UserControl_Simplificator) Then
+                Dim Ctrl = DirectCast(CtrlObject, UserControl_Simplificator)
 
-            If Choix = "All Value" Then
-                Analyse.Liste_AllValue.Add(Choix)
-            ElseIf Choix = "Ocurence Value" Then
-                Analyse.Liste_OcValue.Add(Choix)
-            Else 'Numeric value
-                Analyse.Liste_NumericValue.Add(Choix)
+                If Ctrl.Visibility = Visibility.Collapsed Then Continue For
+
+                Dim Champs = DirectCast(Ctrl.ComboBox_Champs.SelectedItem, String)
+                If Champs Is Nothing Then Continue For
+                Dim Choix = DirectCast(Ctrl.ComboBox_Choix.SelectedItem, String)
+                If Choix Is Nothing OrElse Choix = "" Then Continue For
+
+                If Choix = "All Value" Then
+                    Analyse.Liste_AllValue.Add(Champs)
+                ElseIf Choix = "Ocurence Value" Then
+                    Analyse.Liste_OcValue.Add(Champs)
+                Else 'Numeric value
+                    Analyse.Liste_NumericValue.Add(Champs)
+                End If
+            ElseIf CtrlObject.GetType() = GetType(UserControl_OcAndNumeric) Then
+                Dim Ctrl = DirectCast(CtrlObject, UserControl_OcAndNumeric)
+
+                If Ctrl.Visibility = Visibility.Collapsed Then Continue For
+                Dim ChampsOc = DirectCast(Ctrl.ComboBox_Champs_Oc.SelectedItem, String)
+                If ChampsOc Is Nothing Then Continue For
+                Dim ChampsNu = DirectCast(Ctrl.ComboBox_Champs_Nu.SelectedItem, String)
+                If ChampsNu Is Nothing Then Continue For
+                Analyse.Liste_OcAndNu.Add(New Class_Analyse_Sub(ChampsOc, ChampsNu))
             End If
         Next
+        If Analyse.Liste_AllValue.Count = 0 Then Exit Sub
+        If Analyse.Liste_OcValue.Count + Analyse.Liste_NumericValue.Count = 0 Then Exit Sub
 
+        If Analyse.Verification.Length > 0 Then
+            MsgBox(Analyse.Verification)
+            Exit Sub
+        End If
+
+        Dim AnalyseV2s As New Class_AnalyseV2s(Analyse.Liste_AllValue)
+
+
+        For Each KV In Dico
+            Dim AnalyseV2 As New Class_AnalyseV2(KV.Value, Analyse)
+            AnalyseV2s.Add(AnalyseV2)
+        Next
+
+
+        Dim saveFileDialog = New SaveFileDialog()
+        saveFileDialog.Filter = "Analyse|*.jsonA"
+        If saveFileDialog.ShowDialog() = True Then
+            If File.Exists(saveFileDialog.FileName) Then File.Delete(saveFileDialog.FileName)
+
+            Dim Class_AnalyseSave As New Class_AnalyseSave
+            Class_AnalyseSave.Alllines = AnalyseV2s
+            Class_AnalyseSave.Tiltes = Analyse
+
+            Class_SerialisationAndUnSerialisation.Serialisation(Of Class_AnalyseSave)(Class_AnalyseSave, saveFileDialog.FileName)
+        End If
 
     End Sub
 
