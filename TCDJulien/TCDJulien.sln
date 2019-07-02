@@ -9,6 +9,10 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WpfClass_TCD", "WpfClass_TC
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WpfApp_Filtror", "WpfApp_Filtror\WpfApp_Filtror.vbproj", "{3FDC9B9B-916F-4DDC-B105-3BA581A4DB47}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WpfApp_Main", "WpfApp_Main\WpfApp_Main.vbproj", "{ECD8449F-A37C-42F4-B191-4D6783110A44}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Old", "Old", "{03860061-E11E-4C62-8670-B4DEDA2258BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,9 +31,18 @@ Global
 		{3FDC9B9B-916F-4DDC-B105-3BA581A4DB47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FDC9B9B-916F-4DDC-B105-3BA581A4DB47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FDC9B9B-916F-4DDC-B105-3BA581A4DB47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECD8449F-A37C-42F4-B191-4D6783110A44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECD8449F-A37C-42F4-B191-4D6783110A44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECD8449F-A37C-42F4-B191-4D6783110A44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECD8449F-A37C-42F4-B191-4D6783110A44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2D6E0811-FA2F-4D6C-86D3-4AAFD19FD17C} = {03860061-E11E-4C62-8670-B4DEDA2258BD}
+		{1D61A8E9-AB01-4955-82A5-D4C40CB15881} = {03860061-E11E-4C62-8670-B4DEDA2258BD}
+		{3FDC9B9B-916F-4DDC-B105-3BA581A4DB47} = {03860061-E11E-4C62-8670-B4DEDA2258BD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B70BB001-4264-4F42-9AD1-679CC9D83799}

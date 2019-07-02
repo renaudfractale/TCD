@@ -1,0 +1,24 @@
+﻿<Page x:Class="Page_01_SelectFile"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfApp_Main"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800" Background="White" Loaded="Page_Loaded"
+      Title="Page_01_SelectFile">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Border BorderThickness="100" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <Button Name="Button_OpenFile" Click="Button_OpenFile_Click"> Open File </Button>
+        </Border>
+       
+    </Grid>
+</Page>
