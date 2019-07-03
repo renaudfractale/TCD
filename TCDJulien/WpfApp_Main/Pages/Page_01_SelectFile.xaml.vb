@@ -1,5 +1,15 @@
 ﻿Imports System.Threading
 Class Page_01_SelectFile
+    Private Main As MainWindow
+    Public Sub New(Main As MainWindow)
+
+        ' Cet appel est requis par le concepteur.
+        InitializeComponent()
+
+        ' Ajoutez une initialisation quelconque après l'appel InitializeComponent().
+        Me.Main = Main
+    End Sub
+
     Private Sub Page_Loaded(sender As Object, e As RoutedEventArgs)
 
     End Sub
@@ -14,10 +24,13 @@ Class Page_01_SelectFile
 
 
         If openFileDlg.ShowDialog() = True Then
-            Application.PathFile = openFileDlg.FileName
-
-            Application.MonThreadAnalyse.Start()
-
+            Main.PathFile = openFileDlg.FileName
+            Main.Add()
+        Else
+            Main.PathFile = ""
         End If
+
     End Sub
+
+
 End Class

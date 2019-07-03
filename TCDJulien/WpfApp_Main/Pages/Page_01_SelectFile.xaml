@@ -10,15 +10,14 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Border BorderThickness="100" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+        <Border BorderThickness="100" Grid.Row="0" >
             <Button Name="Button_OpenFile" Click="Button_OpenFile_Click"> Open File </Button>
         </Border>
-       
+        
     </Grid>
 </Page>

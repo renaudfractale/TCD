@@ -8,6 +8,17 @@
       d:DesignHeight="450" d:DesignWidth="800" Background="White"
       Title="Page_02_Analyse">
     <Grid>
+        
         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" FontFamily="Terminator Two" >Analyse en cours </TextBlock>
+        <Border Grid.Row="1" BorderThickness="20" Name="Border_Info">
+            <StackPanel >
+                <TextBlock FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">Répertoire de Travail :</TextBlock>
+                <TextBlock Name="TextBlock_PathDir" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                <TextBlock FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">Fichier de Travail :</TextBlock>
+                <TextBlock FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Name="TextBlock_NameFile"></TextBlock>
+            </StackPanel>
+        </Border>
+
+
     </Grid>
 </Page>
